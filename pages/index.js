@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { FaSearch } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
+import { Logo } from "@/public/images";
 const categories = ["Swallow", "Soups", "Rice", "Snacks", "Drinks"];
 
 const featuredMeals = [
@@ -26,6 +29,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
+      <Link href="/" className="text-2xl font-bold dark:text-white">
+        <Image src={Logo} width={100} height={100} alt="Logo" priority />
+      </Link>
       <div className="text-center mt-10">
         <h1 className="text-4xl font-bold text-gray-900">Nrịọma 🍽️</h1>
         <p className="text-lg text-gray-600 mt-2">
