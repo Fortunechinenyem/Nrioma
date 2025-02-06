@@ -4,6 +4,7 @@ import { useCartStore } from "@/store/cart";
 import Image from "next/image";
 import { FaSearch, FaStar, FaFilter } from "react-icons/fa";
 import Layout from "@/app/components/layouts/Layout";
+import MealCustomization from "@/app/components/modals/MealCustomization";
 
 export default function Menu() {
   const [menu, setMenu] = useState([]);
@@ -162,6 +163,10 @@ export default function Menu() {
           )}
         </div>
       </div>
+      <section>
+        <h2>Customize your Meal</h2>
+        <MealCustomization />
+      </section>
     </Layout>
   );
 }

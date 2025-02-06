@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaClock, FaTruck, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Layout from "@/app/components/layouts/Layout";
+import OrderTracking from "@/app/components/OrderTracking";
 
 const ORDER_STATUS = ["Preparing", "Out for Delivery", "Delivered"];
 
@@ -105,6 +106,10 @@ export default function Orders() {
           </div>
         )}
       </div>
+      <section>
+        <h2>Track your Order</h2>
+        <OrderTracking />
+      </section>
     </Layout>
   );
 }
