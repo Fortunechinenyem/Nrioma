@@ -101,7 +101,10 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Nrịọma. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Nrịọma. All rights reserved.
+            created by Fortune.dev
+          </p>
         </div>
       </div>
     </footer>
