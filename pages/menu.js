@@ -85,16 +85,15 @@ export default function Menu() {
               />
               <FaSearch className="w-5 h-5 absolute left-3 top-3.5 text-gray-500" />
             </div>
-
             <select
               className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="All">All Categories</option>
-              <option value="Swallow">Swallow</option>
-              <option value="Soups">Soups</option>
               <option value="Rice">Rice</option>
+              <option value="Soups">Soups</option>
+              <option value="Swallow">Swallow</option>
               <option value="Snacks">Snacks</option>
               <option value="Drinks">Drinks</option>
             </select>

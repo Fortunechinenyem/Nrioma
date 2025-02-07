@@ -89,8 +89,8 @@ export default function Home() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
-          <FaFire className="text-orange-500" /> Featured Meals
+        <h2 className="text-3xl font-bold text-gray-800 text-center">
+          Featured Meals
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {featuredMeals.map((meal) => (
