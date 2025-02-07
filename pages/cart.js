@@ -1,6 +1,6 @@
 import Layout from "@/app/components/layouts/Layout";
 import { useCartStore } from "@/store/cart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTrash, FaMinus, FaPlus, FaArrowLeft } from "react-icons/fa";
 
 export default function Cart() {
@@ -11,9 +11,15 @@ export default function Cart() {
     removeFromCart,
     total,
     clearCart,
+    calculateTotal,
   } = useCartStore();
+
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    calculateTotal();
+  }, [cart]);
 
   const handlePayment = () => {
     if (!address.trim()) {
@@ -45,7 +51,7 @@ export default function Cart() {
             <div className="space-y-4 mt-6">
               {cart.map((item) => (
                 <div
-                  key={item.id}
+                  key={`${item.id}-${item.customizations}`}
                   className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center justify-between"
                 >
                   <div className="flex items-center gap-4">
@@ -57,16 +63,34 @@ export default function Cart() {
                     <div>
                       <h3 className="text-lg font-semibold">{item.name}</h3>
                       <p className="text-green-600 font-bold">₦{item.price}</p>
+                      {item.customizations && (
+                        <div className="text-sm text-gray-500 mt-1">
+                          {Object.entries(JSON.parse(item.customizations)).map(
+                            ([key, value]) => (
+                              <p key={key}>
+                                <strong>{key}:</strong>{" "}
+                                {Array.isArray(value)
+                                  ? value.join(", ")
+                                  : value}
+                              </p>
+                            )
+                          )}
+                        </div>
+                      )}
                       <div className="flex items-center gap-2 mt-2">
                         <button
-                          onClick={() => decreaseQuantity(item.id)}
+                          onClick={() =>
+                            decreaseQuantity(item.id, item.customizations)
+                          }
                           className="bg-gray-200 p-2 rounded hover:bg-gray-300 transition-colors"
                         >
                           <FaMinus className="w-4 h-4" />
                         </button>
                         <span className="text-lg">{item.quantity}</span>
                         <button
-                          onClick={() => increaseQuantity(item.id)}
+                          onClick={() =>
+                            increaseQuantity(item.id, item.customizations)
+                          }
                           className="bg-gray-200 p-2 rounded hover:bg-gray-300 transition-colors"
                         >
                           <FaPlus className="w-4 h-4" />
@@ -75,7 +99,7 @@ export default function Cart() {
                     </div>
                   </div>
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item.id, item.customizations)}
                     className="text-red-600 hover:text-red-700 transition-colors"
                   >
                     <FaTrash className="w-5 h-5" />

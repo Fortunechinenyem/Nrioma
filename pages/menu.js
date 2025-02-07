@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useCartStore } from "@/store/cart";
 import Image from "next/image";
-import { FaSearch, FaStar, FaFilter } from "react-icons/fa";
+import { FaSearch, FaStar } from "react-icons/fa";
 import Layout from "@/app/components/layouts/Layout";
 import MealCustomization from "@/app/components/modals/MealCustomization";
 
@@ -14,6 +14,8 @@ export default function Menu() {
   const [rating, setRating] = useState("All");
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMeal, setSelectedMeal] = useState(null);
 
   const addToCart = useCartStore((state) => state.addToCart);
 
@@ -57,9 +59,17 @@ export default function Menu() {
     setFilteredMenu(filtered);
   }, [category, priceRange, rating, search, menu]);
 
+  const handleAddToCart = (item) => {
+    if (item.hasCustomizations) {
+      setSelectedMeal(item);
+      setIsModalOpen(true);
+    } else {
+      addToCart(item);
+    }
+  };
+
   return (
     <Layout>
-      {" "}
       <div className="p-6 bg-gray-50 min-h-screen">
         <h2 className="text-3xl font-bold mb-6 text-gray-900">Menu</h2>
 
@@ -133,7 +143,7 @@ export default function Menu() {
                 key={item.id}
                 className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
               >
-                <div className="relative h-48">
+                <div className="relative h-48 w-full">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -149,10 +159,12 @@ export default function Menu() {
                   <span className="ml-2 text-gray-600">{item.rating}/5</span>
                 </div>
                 <button
-                  onClick={() => addToCart(item)}
+                  onClick={() => handleAddToCart(item)}
                   className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg w-full hover:bg-green-700 transition-colors"
                 >
-                  Add to Cart
+                  {item.hasCustomizations
+                    ? "Customize & Add to Cart"
+                    : "Add to Cart"}
                 </button>
               </div>
             ))
@@ -162,11 +174,18 @@ export default function Menu() {
             </p>
           )}
         </div>
+
+        {isModalOpen && (
+          <MealCustomization
+            meal={selectedMeal}
+            onClose={() => setIsModalOpen(false)}
+            onAddToCart={(customizedMeal) => {
+              addToCart(customizedMeal);
+              setIsModalOpen(false);
+            }}
+          />
+        )}
       </div>
-      <section>
-        <h2>Customize your Meal</h2>
-        <MealCustomization />
-      </section>
     </Layout>
   );
 }

@@ -139,25 +139,29 @@ export default function Home() {
           Earn points with every order and enjoy exclusive rewards, discounts,
           and special offers just for you.
         </p>
-        <div className="flex flex-wrap justify-center gap-6 mt-6">
-          <div className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition duration-300 w-64">
-            <FaHeart className="text-red-500 text-3xl mx-auto" />
-            <h3 className="font-semibold mt-2">Earn Points</h3>
-            <p className="text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-6">
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 w-80 sm:w-64">
+            <FaHeart className="text-red-500 text-4xl mx-auto" />
+            <h3 className="font-semibold mt-4 text-xl text-center">
+              Earn Points
+            </h3>
+            <p className="text-sm text-gray-500 mt-2 text-center">
               Get points every time you order your favorite meal.
             </p>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition duration-300 w-64">
-            <FaStar className="text-yellow-500 text-3xl mx-auto" />
-            <h3 className="font-semibold mt-2">Exclusive Rewards</h3>
-            <p className="text-sm text-gray-500">
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 w-80 sm:w-64">
+            <FaStar className="text-yellow-500 text-4xl mx-auto" />
+            <h3 className="font-semibold mt-4 text-xl text-center">
+              Exclusive Rewards
+            </h3>
+            <p className="text-sm text-gray-500 mt-2 text-center">
               Unlock exciting offers as you accumulate points.
             </p>
           </div>
         </div>
 
         <Link href="/loyaltyprogram">
-          <button className="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+          <button className="mt-8 bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors">
             Learn More
           </button>
         </Link>
@@ -165,3 +169,22 @@ export default function Home() {
     </Layout>
   );
 }
+
+// import { useEffect } from "react";
+// import { requestForToken, onMessageListener } from "@/firebase";
+
+// export default function Home() {
+//   useEffect(() => {
+//     requestForToken().then((token) => {
+//       console.log("Token:", token);
+//       // Send token to your backend for notification targeting
+//     });
+
+//     onMessageListener().then((payload) => {
+//       console.log("Message received:", payload);
+//       alert(payload.notification.title);
+//     });
+//   }, []);
+
+//   return <div>Your App Content</div>;
+// }

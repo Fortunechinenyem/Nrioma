@@ -1,39 +1,50 @@
 import { useState } from "react";
-import { loginUser, signInWithGoogle } from "../firebase";
+import {
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { useRouter } from "next/router";
+import { addUserToFirestore } from "../utils/firestore";
 import Link from "next/link";
+import { registerUser, auth } from "@/firebase";
 
-export default function Login() {
+export default function Signup() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
-
     try {
-      const userCredential = await loginUser(email, password);
+      const userCredential = await registerUser(email, password, name);
       const user = userCredential.user;
 
-      console.log("User successfully logged in:", user);
+      await addUserToFirestore(user);
+      await updateProfile(user, { displayName: name });
+
+      console.log("User successfully signed up and added to Firestore!");
       router.push("/");
     } catch (error) {
-      console.error("Error during login:", error.message);
+      console.error("Error during sign-up:", error.message);
       setError(error.message);
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithGoogle();
+      const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      console.log("User signed in with Google:", user);
+      await addUserToFirestore(user);
+      console.log("Google sign-in successful!");
       router.push("/");
     } catch (error) {
-      console.error("Error during Google sign-in:", error.message);
+      console.error("Error with Google sign-in:", error.message);
       setError(error.message);
     }
   };
@@ -42,10 +53,10 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
-          Welcome Back
+          Create an Account
         </h1>
         <p className="text-center text-gray-600 mb-4">
-          Log in to access your account.
+          Start your mental health journey today.
         </p>
 
         {error && (
@@ -54,7 +65,25 @@ export default function Login() {
           </p>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleSignup} className="space-y-6">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-gray-700 font-medium mb-1"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
           <div>
             <label
               htmlFor="email"
@@ -95,24 +124,30 @@ export default function Login() {
             type="submit"
             className="w-full bg-blue-600 text-white py-3 rounded font-semibold hover:bg-blue-700 transition duration-300"
           >
-            Log In
+            Sign Up
           </button>
         </form>
 
+        <div className="flex items-center my-4">
+          <div className="flex-grow h-px bg-gray-300" />
+          <span className="mx-2 text-gray-500">or</span>
+          <div className="flex-grow h-px bg-gray-300" />
+        </div>
+
         <button
-          onClick={handleGoogleSignIn}
-          className="w-full mt-4 bg-red-500 text-white py-3 rounded font-semibold hover:bg-red-600 transition duration-300"
+          onClick={signInWithGoogle}
+          className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-3 rounded font-semibold hover:bg-red-600 transition duration-300"
         >
-          Sign In with Google
+          Sign in with Google
         </button>
 
         <p className="text-sm text-gray-600 text-center mt-6">
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/signup"
+            href="/login"
             className="text-blue-600 font-medium hover:underline"
           >
-            Sign up
+            Log in
           </Link>
         </p>
       </div>

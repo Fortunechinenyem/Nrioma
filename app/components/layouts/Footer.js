@@ -43,6 +43,30 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/referral"
+                  className="text-gray-400 hover:text-green-500 transition-colors"
+                >
+                  Referral
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/mealplans"
+                  className="text-gray-400 hover:text-green-500 transition-colors"
+                >
+                  Meal Plans
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/loyaltyprogram"
+                  className="text-gray-400 hover:text-green-500 transition-colors"
+                >
+                  Loyalty Program
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/contact"
                   className="text-gray-400 hover:text-green-500 transition-colors"
                 >
