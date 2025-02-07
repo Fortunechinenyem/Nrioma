@@ -13,7 +13,7 @@ export default function OrderTracking() {
         setOrderStatus("Delivered");
         setProgress(100);
       }
-    }, 5000); // Simulate status updates every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [orderStatus]);

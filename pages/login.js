@@ -18,7 +18,7 @@ export default function Login() {
       const user = userCredential.user;
 
       console.log("User successfully logged in:", user);
-      router.push("/");
+      router.push("/profile");
     } catch (error) {
       console.error("Error during login:", error.message);
       setError(error.message);

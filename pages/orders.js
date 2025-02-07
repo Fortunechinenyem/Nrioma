@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { getAuth } from "firebase/auth"; // Import Firebase Auth
 import { FaClock, FaTruck, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { db } from "@/firebase";
 import Layout from "@/app/components/layouts/Layout";
 import OrderTracking from "@/app/components/OrderTracking";
 
@@ -9,12 +11,28 @@ const ORDER_STATUS = ["Preparing", "Out for Delivery", "Delivered"];
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const auth = getAuth();
 
   useEffect(() => {
-    axios.get("/api/orders").then((res) => {
-      setOrders(res.data);
+    const currentUser = auth.currentUser;
+
+    if (currentUser) {
+      const userId = currentUser.uid;
+      const q = query(collection(db, "orders"), where("userId", "==", userId));
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const fetchedOrders = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setOrders(fetchedOrders);
+        setIsLoading(false);
+      });
+
+      return () => unsubscribe();
+    } else {
       setIsLoading(false);
-    });
+    }
   }, []);
 
   const getStatusIcon = (status) => {
@@ -36,35 +54,18 @@ export default function Orders() {
         <h2 className="text-3xl font-bold text-gray-900">My Orders</h2>
 
         {isLoading ? (
-          <div className="space-y-4 mt-6">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div
-                key={index}
-                className="bg-white p-4 rounded-lg shadow-md animate-pulse"
-              >
-                <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/4 mt-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/3 mt-2"></div>
-                <div className="w-full bg-gray-200 h-2 rounded mt-4"></div>
-              </div>
-            ))}
-          </div>
+          <p>Loading orders...</p>
         ) : orders.length === 0 ? (
           <p className="mt-6 text-gray-500">You have no active orders.</p>
         ) : (
           <div className="space-y-4 mt-6">
             {orders.map((order) => (
-              <div
-                key={order.id}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              >
+              <div key={order.id} className="bg-white p-6 rounded-lg shadow-md">
                 <div className="flex justify-between items-center">
                   <h3 className="text-xl font-semibold">{order.foodName}</h3>
                   <div className="flex items-center gap-2">
                     {getStatusIcon(order.status)}
-                    <span className="text-gray-700">
-                      {ORDER_STATUS[order.status]}
-                    </span>
+                    <span>{ORDER_STATUS[order.status]}</span>
                   </div>
                 </div>
                 <p className="text-gray-600 mt-2">₦{order.price}</p>
@@ -78,26 +79,25 @@ export default function Orders() {
                         ? "bg-orange-500 w-2/3"
                         : "bg-green-500 w-full"
                     }`}
-                  />
+                  ></div>
                 </div>
 
                 <div className="flex gap-2 mt-4">
                   {order.status === 0 && (
                     <button
-                      className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                      className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg"
                       onClick={() => alert("Cancel order?")}
                     >
-                      <FaTimesCircle />
-                      Cancel Order
+                      <FaTimesCircle /> Cancel Order
                     </button>
                   )}
+
                   {order.status === 2 && (
                     <button
-                      className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                      className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg"
                       onClick={() => alert("Reorder?")}
                     >
-                      <FaCheckCircle />
-                      Reorder
+                      <FaCheckCircle /> Reorder
                     </button>
                   )}
                 </div>
@@ -106,10 +106,7 @@ export default function Orders() {
           </div>
         )}
       </div>
-      <section>
-        <h2>Track your Order</h2>
-        <OrderTracking />
-      </section>
+      <OrderTracking />
     </Layout>
   );
 }

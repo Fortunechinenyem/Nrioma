@@ -5,7 +5,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "next/router";
-import { addUserToFirestore } from "../utils/firestore";
+
 import Link from "next/link";
 import { registerUser, auth } from "@/firebase";
 
@@ -42,7 +42,7 @@ export default function Signup() {
 
       await addUserToFirestore(user);
       console.log("Google sign-in successful!");
-      router.push("/");
+      router.push("/login");
     } catch (error) {
       console.error("Error with Google sign-in:", error.message);
       setError(error.message);
@@ -55,9 +55,6 @@ export default function Signup() {
         <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
           Create an Account
         </h1>
-        <p className="text-center text-gray-600 mb-4">
-          Start your mental health journey today.
-        </p>
 
         {error && (
           <p className="text-red-500 text-center bg-red-100 border border-red-200 p-2 rounded mb-4">

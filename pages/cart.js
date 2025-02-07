@@ -1,7 +1,8 @@
 import Layout from "@/app/components/layouts/Layout";
 import { useCartStore } from "@/store/cart";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { FaTrash, FaMinus, FaPlus, FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 export default function Cart() {
   const {
@@ -14,21 +15,14 @@ export default function Cart() {
     calculateTotal,
   } = useCartStore();
 
-  const [address, setAddress] = useState("");
-  const [error, setError] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     calculateTotal();
   }, [cart]);
 
-  const handlePayment = () => {
-    if (!address.trim()) {
-      setError("Please enter a valid delivery address.");
-      return;
-    }
-
-    alert("Payment successful! Your order is on the way.");
-    clearCart();
+  const proceedToCheckout = () => {
+    router.push("/checkout");
   };
 
   return (
@@ -119,27 +113,6 @@ export default function Cart() {
               </button>
 
               <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-                <label className="block font-semibold text-gray-700">
-                  Delivery Address:
-                </label>
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                    setError("");
-                  }}
-                  className={`w-full p-3 border rounded-lg mt-2 focus:outline-none ${
-                    error
-                      ? "border-red-500"
-                      : "focus:ring-2 focus:ring-green-500"
-                  }`}
-                  placeholder="Enter your delivery address"
-                />
-                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-              </div>
-
-              <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-gray-900">Total:</span>
                   <span className="text-green-600 font-bold text-xl">
@@ -147,10 +120,10 @@ export default function Cart() {
                   </span>
                 </div>
                 <button
-                  onClick={handlePayment}
+                  onClick={proceedToCheckout}
                   className="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg w-full flex items-center justify-center gap-2 hover:bg-green-700 transition-colors"
                 >
-                  <span>Pay with Paystack</span>
+                  <span>Proceed to Checkout</span>
                 </button>
               </div>
             </div>
