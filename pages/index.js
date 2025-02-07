@@ -118,12 +118,6 @@ export default function Home() {
                     <span className="text-sm">{meal.rating}</span>
                   </div>
                 </div>
-                <button
-                  onClick={() => router.push(`/menu/${meal.id}`)}
-                  className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg w-full hover:bg-green-700 transition-colors"
-                >
-                  Order Now
-                </button>
               </div>
             </div>
           ))}

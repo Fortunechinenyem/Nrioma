@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
@@ -5,6 +6,23 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8">
+          <h3 className="text-2xl font-bold mb-4">Meet the Chef</h3>
+          <div className="flex flex-col md:flex-row justify-center items-center space-x-0 md:space-x-4 space-y-4 md:space-y-0">
+            <Image
+              src="/images/chefnrioma.jpg"
+              alt="Chef Avatar"
+              width={80}
+              height={80}
+              className="rounded-full object-cover"
+            />
+            <div>
+              <p className="text-lg font-semibold">Chef Nrioma</p>
+              <p className="text-gray-400">Founder & Head Chef at Nrịọma</p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">About Nrịọma</h3>
@@ -87,7 +105,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-xl font-bold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
+            <div className="flex justify-center space-x-4">
               <a
                 href="https://facebook.com"
                 target="_blank"
