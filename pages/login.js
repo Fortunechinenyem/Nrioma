@@ -31,7 +31,7 @@ export default function Login() {
       const user = result.user;
 
       console.log("User signed in with Google:", user);
-      router.push("/");
+      router.push("/profile");
     } catch (error) {
       console.error("Error during Google sign-in:", error.message);
       setError(error.message);

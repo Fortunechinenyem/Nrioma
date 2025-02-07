@@ -15,6 +15,7 @@ export const addUserToFirestore = async (user) => {
       uid: user.uid,
       name: user.displayName || "",
       email: user.email,
+      uid: user.uid,
     });
 
     console.log("User successfully added to Firestore");

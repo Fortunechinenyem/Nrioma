@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 
 import Link from "next/link";
 import { registerUser, auth } from "@/firebase";
+import { addUserToFirestore } from "@/utils/firestore";
 
 export default function Signup() {
   const [name, setName] = useState("");
