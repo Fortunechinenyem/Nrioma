@@ -34,12 +34,10 @@ export default function Navbar() {
     <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image src={Logo} width={100} height={100} alt="Logo" priority />
           </Link>
 
-          {/* Menu Items (centered on md and larger screens) */}
           <div className="hidden md:flex flex-1 justify-center space-x-8">
             <Link href="/" className="text-gray-700 hover:text-green-600">
               Home
@@ -58,7 +56,6 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Cart & Profile Icons */}
           <div className="flex items-center space-x-4">
             <Link
               href="/cart"
@@ -79,7 +76,6 @@ export default function Navbar() {
               <FaUser className="w-6 h-6" />
             </button>
 
-            {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden text-gray-700 focus:outline-none"
@@ -94,7 +90,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-white shadow-md border-t border-gray-200">
           <div className="flex flex-col items-center space-y-4 py-4">

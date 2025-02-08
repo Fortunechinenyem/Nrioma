@@ -94,7 +94,9 @@ export default function Menu() {
               <option value="Rice">Rice</option>
               <option value="Soups">Soups</option>
               <option value="Swallow">Swallow</option>
+              <option value="Pasta">Pasta</option>
               <option value="Snacks">Snacks</option>
+              <option value="Sides">Sides</option>
               <option value="Drinks">Drinks</option>
             </select>
 

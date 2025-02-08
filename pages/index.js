@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import { FaSearch, FaFire, FaStar, FaGift, FaHeart } from "react-icons/fa";
+import { FaSearch, FaStar, FaGift, FaHeart } from "react-icons/fa";
 import Image from "next/image";
 import Layout from "@/app/components/layouts/Layout";
 import Link from "next/link";
@@ -10,8 +10,10 @@ const categories = [
   { name: "Swallow", icon: "🍚" },
   { name: "Soups", icon: "🍲" },
   { name: "Rice", icon: "🍛" },
-  { name: "Snacks", icon: "🍟" },
-  { name: "Drinks", icon: "🥤" },
+  { name: "Pasta", icon: "🍝" },
+  { name: "Sides", icon: "🥗" },
+  { name: "Snacks", icon: "🍿" },
+  { name: "Drinks", icon: "🍹" },
 ];
 
 const featuredMeals = [
@@ -35,6 +37,13 @@ const featuredMeals = [
     price: 1800,
     img: "/images/pix (5).png",
     rating: 4.2,
+  },
+  {
+    id: 4,
+    name: "Asun Spaghetti",
+    price: 3000,
+    img: "/images/pix (34).png",
+    rating: 4.7,
   },
 ];
 
