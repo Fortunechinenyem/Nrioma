@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { FaSearch, FaStar, FaGift, FaHeart } from "react-icons/fa";
@@ -50,6 +50,27 @@ const featuredMeals = [
 export default function Home() {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const stats = [
+    { label: "Meals Served", count: 10000 },
+    { label: "Orders Delivered", count: 5000 },
+    { label: "Happy Customers", count: 4800 },
+  ];
+
+  const [counts, setCounts] = useState(stats.map(() => 0));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounts((prevCounts) =>
+        prevCounts.map((value, index) =>
+          value < stats[index].count
+            ? value + Math.ceil(stats[index].count / 100)
+            : stats[index].count
+        )
+      );
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Layout>
@@ -59,12 +80,13 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
         <div className="relative text-center text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-            Discover Nrịọma 🍽️
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            Delicious Meals Delivered Fast!
           </h1>
-          <p className="mt-4 text-lg md:text-2xl">
-            Where Every Bite Feels Like Home. Fresh, Fast, and Full of Flavor!
+          <p className="text-lg md:text-xl mb-6">
+            Order your favorite meals with just a click.
           </p>
+
           <div className="relative mt-6 w-full max-w-md mx-auto">
             <input
               type="text"
@@ -133,6 +155,39 @@ export default function Home() {
         </div>
       </div>
 
+      <section className="py-12 bg-gray-100 text-center">
+        <h2 className="text-3xl font-bold mb-6">Our Impact</h2>
+        <div className="flex justify-center gap-8">
+          {stats.map((stat, index) => (
+            <div key={index} className="text-2xl font-semibold">
+              <p className="text-orange-500 text-4xl font-bold">
+                {counts[index].toLocaleString()}+
+              </p>
+              <p>{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="py-12 px-4 bg-white">
+        <h2 className="text-3xl font-bold text-center mb-8">
+          What Our Customers Say ❤️
+        </h2>
+        <div className="flex gap-4 overflow-x-auto pb-4">
+          {[
+            "Best food ever!",
+            "Quick delivery and tasty meals.",
+            "Highly recommend Nrịọma!",
+          ].map((review, index) => (
+            <div
+              key={index}
+              className="min-w-[250px] bg-gray-100 p-6 rounded-xl shadow-md"
+            >
+              <p className="italic">"{review}"</p>
+              <p className="mt-4 font-semibold">- Customer {index + 1}</p>
+            </div>
+          ))}
+        </div>
+      </section>
       <div className="bg-green-100 py-12 px-4 text-center">
         <h2 className="text-3xl font-bold text-green-800 mb-4 flex justify-center items-center gap-2">
           <FaGift className="text-green-600 text-4xl" /> Join Our Loyalty
@@ -172,22 +227,3 @@ export default function Home() {
     </Layout>
   );
 }
-
-// import { useEffect } from "react";
-// import { requestForToken, onMessageListener } from "@/firebase";
-
-// export default function Home() {
-//   useEffect(() => {
-//     requestForToken().then((token) => {
-//       console.log("Token:", token);
-//       // Send token to your backend for notification targeting
-//     });
-
-//     onMessageListener().then((payload) => {
-//       console.log("Message received:", payload);
-//       alert(payload.notification.title);
-//     });
-//   }, []);
-
-//   return <div>Your App Content</div>;
-// }
