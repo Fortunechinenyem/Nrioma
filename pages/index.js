@@ -155,19 +155,25 @@ export default function Home() {
         </div>
       </div>
 
-      <section className="py-12 bg-gray-100 text-center">
-        <h2 className="text-3xl font-bold mb-6">Our Impact</h2>
-        <div className="flex justify-center gap-8">
+      <section className="py-8 sm:py-12 bg-gray-100 text-center px-4 sm:px-8 lg:px-16">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6">
+          Our Impact
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {stats.map((stat, index) => (
-            <div key={index} className="text-2xl font-semibold">
-              <p className="text-orange-500 text-4xl font-bold">
+            <div
+              key={index}
+              className="text-xl sm:text-2xl font-semibold bg-white shadow-md rounded-xl p-6"
+            >
+              <p className="text-orange-500 text-3xl sm:text-4xl lg:text-5xl font-bold">
                 {counts[index].toLocaleString()}+
               </p>
-              <p>{stat.label}</p>
+              <p className="mt-2 text-gray-700">{stat.label}</p>
             </div>
           ))}
         </div>
       </section>
+
       <section className="py-12 px-4 bg-white">
         <h2 className="text-3xl font-bold text-center mb-8">
           What Our Customers Say ❤️
